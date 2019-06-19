@@ -51,9 +51,8 @@ public class TcpClient {
                 if (mBufferOut != null) {
                 //    mBufferOut.write("HELLO",0,5);
                     try {
-
                         String msg =  message+" \r\n";
-                        mBufferOut.println(msg);
+                        mBufferOut.print(msg);
                         mBufferOut.flush();
                     }catch (Exception e){
                         System.out.println("FAIL");
@@ -69,54 +68,47 @@ public class TcpClient {
      * Close the connection and release the members
      */
     public void stopClient() {
-
+        try {
+            socket.close();
+        }catch (Exception e){}
         if (mBufferOut != null) {
             mBufferOut.flush();
             mBufferOut.close();
         }
-
         mBufferOut = null;
     }
 
-
+    /**
+     * Run the client - connect to the server
+     */
     public void runClient() {
         final Thread thread = new Thread(){
             //coonect to the server
             public void run() {
                 try {
                     //here you must put your computer's IP address.
-                   // InetAddress serverAddr = InetAddress.getByName("10.0.2.2");
+                    InetAddress serverAddr = InetAddress.getByName("10.0.2.2");
                     //create a socket to make the connection with the server
-                 //   socket = new Socket(serverAddr, 4008);
-                    socket = new Socket("10.0.2.2", 4009);
+//                    socket = new Socket(serverAddr, 4008);
+                    socket = new Socket("10.0.2.2", 4010);
                     try {
-                        //sends the message to the server
-                        //  OutputStream output = socket.getOutputStream();
-                        //   FileInputStream fis = new FileInputStream(pic);
-                        mBufferOut = new PrintWriter(socket.getOutputStream());
-                        mBufferOut.println("CHECK");
-                        mBufferOut.flush();
-                        //sends the message to the server
-
-                        //mBufferOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
                         isConnect = true;
-                        //   output.write(imgbyte);
-                        //  output.flush();
+                        mBufferOut = new PrintWriter(socket.getOutputStream(),true);
+                       // while (true){
+                        //}
+                        //crete buffer
+                    //    mBufferOut = new PrintWriter(socket.getOutputStream(),true);
 
                     } catch (Exception e) {
                         System.out.println("ERROR");
-                    } finally {
-                        socket.close();
                     }
                 } catch (Exception e) {
                     System.out.println("ERROR 2");
                     Log.e("TCP", "C: Error", e);
-
                 }
 
             }
         };
-   //     Thread thread = new Thread(runnable);
         thread.start();
 
     }
