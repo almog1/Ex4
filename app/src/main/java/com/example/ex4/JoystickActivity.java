@@ -2,6 +2,7 @@ package com.example.ex4;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toolbar;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +15,7 @@ public class JoystickActivity extends AppCompatActivity implements JoystickListe
         super.onCreate(savedInstanceState);
         JoystickView joystick = new JoystickView(this);
         setContentView(joystick);
+        setTitle("Joystick");
 
         String ip = getIntent().getStringExtra("IP_ADDRESS");
         int port = getIntent().getIntExtra("PORT", 0);
@@ -21,16 +23,12 @@ public class JoystickActivity extends AppCompatActivity implements JoystickListe
         tcpClient = TcpClient.getInstance(ip, port);
         tcpClient.runClient();
 
-        //wait until the client connected
-        while (tcpClient.isConnect == false) {
-
-        }
     }
 
     @Override
     public void onJoystickMoved(float xPercent, float yPercent, int source) {
         String aileron, elevator;
-        aileron = "set " + " /controls/flight/aileron " + xPercent + " \r\n";
+        aileron = "set " + "/controls/flight/aileron " + xPercent + " \r\n";
         elevator = "set " + "/controls/flight/elevator " + yPercent + " \r\n";
         //x - aileron
         //y - elevator
