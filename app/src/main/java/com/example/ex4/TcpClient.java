@@ -87,17 +87,13 @@ public class TcpClient {
             public void run() {
                 try {
                     //here you must put your computer's IP address.
-                    InetAddress serverAddr = InetAddress.getByName("10.0.2.2");
+                    InetAddress serverAddr = InetAddress.getByName(ip);
                     //create a socket to make the connection with the server
-//                    socket = new Socket(serverAddr, 4008);
-                    socket = new Socket("10.0.2.2", 4010);
+                   socket = new Socket(serverAddr, port);
+                   // socket = new Socket("10.0.2.2", 4010);
                     try {
                         isConnect = true;
                         mBufferOut = new PrintWriter(socket.getOutputStream(),true);
-                       // while (true){
-                        //}
-                        //crete buffer
-                    //    mBufferOut = new PrintWriter(socket.getOutputStream(),true);
 
                     } catch (Exception e) {
                         System.out.println("ERROR");
