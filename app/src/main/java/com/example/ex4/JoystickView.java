@@ -86,14 +86,14 @@ public class JoystickView extends SurfaceView implements SurfaceHolder.Callback,
                 float displacement = (float) Math.sqrt((Math.pow(e.getX() - centerX, 2)) + Math.pow(e.getY() - centerY, 2));
                 if (displacement < baseRadius){
                     drawJoystick(e.getX(),e.getY());
-                    joystickCallback.onJoystickMoved((e.getX()-centerX)/baseRadius, (e.getY()-centerY)/baseRadius,getId());
+                    joystickCallback.onJoystickMoved((e.getX()-centerX)/baseRadius, -(e.getY()-centerY)/baseRadius,getId());
 
                 }else {
                     float ratio = baseRadius / displacement;
                     float constrainedX = centerX + (e.getX()-centerX) * ratio;
                     float constrainedY = centerY + (e.getY()-centerY) * ratio;
                     drawJoystick(constrainedX, constrainedY);
-                    joystickCallback.onJoystickMoved((constrainedX-centerX)/baseRadius, (constrainedY-centerY)/baseRadius,getId());
+                    joystickCallback.onJoystickMoved((constrainedX-centerX)/baseRadius, -(constrainedY-centerY)/baseRadius,getId());
 
                 }
 
