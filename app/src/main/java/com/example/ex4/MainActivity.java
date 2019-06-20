@@ -21,15 +21,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Send to the joystick acrtivity
+     * and send all paramters needed
+     * @param view
+     */
     public void connect(View view) {
         EditText ip, port;
         String ipStr, portStr;
         int realPort;
 
         // Create an Intent to start the second activity
-        // Intent randomIntent = new Intent(this, JoystickActivity.class);
+         Intent joystickIntent = new Intent(this, JoystickActivity.class);
         // Start the new activity.
-        //startActivity(randomIntent);
         ip = (EditText) findViewById(R.id.ipTextUser);
         port = (EditText) findViewById(R.id.portTextUser);
 
@@ -37,34 +41,11 @@ public class MainActivity extends AppCompatActivity {
         portStr = port.getText().toString();
         realPort = Integer.parseInt(portStr);
 
-        myTcpClient = TcpClient.getInstance(ipStr, realPort);
-        myTcpClient.runClient();
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (Exception e) {
-        }
-        ;
-        myTcpClient.sendMessage("myMessage");
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (Exception e) {
-        }
-        ;
-        myTcpClient.sendMessage("Check message");
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (Exception e) {
-        }
-        ;
-        myTcpClient.sendMessage("myMessage2");
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (Exception e) {
-        }
-        ;
-        myTcpClient.sendMessage("myMessageEND");
-        int count = 0;
-        myTcpClient.stopClient();
+        joystickIntent.putExtra("IP_ADDRESS", ipStr);
+        joystickIntent.putExtra("PORT", realPort);
+
+        //myTcpClient.stopClient();
+        startActivity(joystickIntent);
 
     }
 }

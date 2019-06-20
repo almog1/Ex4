@@ -44,17 +44,16 @@ public class TcpClient {
      * @param message text entered by client
      */
     public void sendMessage(final String message) {
-       // Runnable runnable = new Runnable() {
-        final Thread thread = new Thread(){
-        @Override
+        // Runnable runnable = new Runnable() {
+        final Thread thread = new Thread() {
+            @Override
             public void run() {
                 if (mBufferOut != null) {
-                //    mBufferOut.write("HELLO",0,5);
+                    //    mBufferOut.write("HELLO",0,5);
                     try {
-                        String msg =  message+" \r\n";
-                        mBufferOut.print(msg);
+                        mBufferOut.print(message);
                         mBufferOut.flush();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println("FAIL");
                     }
                     //   mBufferOut.println("HELOO CHECK");
@@ -70,11 +69,13 @@ public class TcpClient {
     public void stopClient() {
         try {
             socket.close();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         if (mBufferOut != null) {
             mBufferOut.flush();
             mBufferOut.close();
         }
+
         mBufferOut = null;
     }
 
@@ -82,19 +83,17 @@ public class TcpClient {
      * Run the client - connect to the server
      */
     public void runClient() {
-        final Thread thread = new Thread(){
+        final Thread thread = new Thread() {
             //coonect to the server
             public void run() {
                 try {
                     //here you must put your computer's IP address.
                     InetAddress serverAddr = InetAddress.getByName(ip);
                     //create a socket to make the connection with the server
-                   socket = new Socket(serverAddr, port);
-                   // socket = new Socket("10.0.2.2", 4010);
+                    socket = new Socket(serverAddr, port);
                     try {
+                        mBufferOut = new PrintWriter(socket.getOutputStream(), true);
                         isConnect = true;
-                        mBufferOut = new PrintWriter(socket.getOutputStream(),true);
-
                     } catch (Exception e) {
                         System.out.println("ERROR");
                     }
